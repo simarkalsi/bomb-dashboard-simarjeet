@@ -1,8 +1,16 @@
 import React, { useMemo, useState } from 'react';
+import CountUp from 'react-countup';
+import moment from 'moment';
+
+
 
 import useBombStats from '../../../../hooks/useBombStats';
 import usebShareStats from '../../../../hooks/usebShareStats';
 import useBondStats from '../../../../hooks/useBondStats';
+import useTreasuryAllocationTimes from '../../../../hooks/useTreasuryAllocationTimes';
+import useCurrentEpoch from '../../../../hooks/useCurrentEpoch';
+import useCashPriceInEstimatedTWAP from '../../../../hooks/useCashPriceInEstimatedTWAP';
+import useTotalValueLocked from '../../../../hooks/useTotalValueLocked';
 
 
 
@@ -13,6 +21,7 @@ import BBondImg from '../../asset/bbond.png'
 import MetaImg from '../../asset/metamask.svg'
 
 import { roundAndFormatNumber } from '../../../../0x';
+import ProgressCountdown from '../../../Boardroom/components/ProgressCountdown';
 
 
 
@@ -21,6 +30,16 @@ export default function Summary() {
     const bombStats = useBombStats();
     const bShareStats = usebShareStats();
     const tBondStats = useBondStats();
+    const currentEpoch = useCurrentEpoch();
+    const TVL = useTotalValueLocked();
+
+
+
+    const { to } = useTreasuryAllocationTimes();
+    const cashStat = useCashPriceInEstimatedTWAP();
+
+    
+
 
 
     const bombCirculatingSupply = useMemo(() => (bombStats ? String(bombStats.circulatingSupply) : null), [bombStats]);
@@ -55,6 +74,7 @@ export default function Summary() {
       );
       const tBondPriceInBNB = useMemo(() => (tBondStats ? Number(tBondStats.tokenInFtm).toFixed(4) : null), [tBondStats]);
 
+      const scalingFactor = useMemo(() => (cashStat ? Number(cashStat.priceInDollars).toFixed(4) : null), [cashStat]);
 
 
     return (
@@ -105,13 +125,13 @@ export default function Summary() {
 
                     <div className='EpochTable' style={{ textAlign: 'center', justifyContent: 'center' }}>
                         <p>Current Epoch</p>
-                        <h2 style={{ fontSize: '30px', margin: '0px' }}>258</h2>
+                        <h2 style={{ fontSize: '30px', margin: '0px' }}>{Number(currentEpoch)}</h2>
                         <hr />
-                        <p>03:38:36</p>
+                        <ProgressCountdown base={moment().toDate()} hideBar={true} deadline={to} description="Next Epoch" />
                         <p>Next Epoch in</p>
                         <hr style={{ width: '70%' }} />
-                        <div style={{ fontSize: '14px', display: 'flex', justifyContent: 'center' }}> <p>Live TWAP :</p> <p style={{ color: 'green', fontWeight: 'bold' }}>1.17</p></div>
-                        <div style={{ fontSize: '14px', display: 'flex', justifyContent: 'center' }}> <p>TVL : </p> <p style={{ color: 'green', fontWeight: 'bold' }}>$5002.412</p></div>
+                        <div style={{ fontSize: '14px', display: 'flex', justifyContent: 'center' }}> <p>Live TWAP :</p> <p style={{ color: 'green', fontWeight: 'bold' }}>{scalingFactor}</p></div>
+                        <div style={{ fontSize: '14px', display: 'flex', justifyContent: 'center' }}> <p>TVL : </p> <p style={{ color: 'green', fontWeight: 'bold' }}><CountUp style={{ fontSize: '25px' }} end={TVL} separator="," prefix="$" /></p></div>
                         <div style={{ fontSize: '14px', display: 'flex', justifyContent: 'center' }}> <p>Last Epoch TWAP : </p> <p style={{ color: 'green', fontWeight: 'bold' }}>1.17</p></div>
                     </div>
                 </div>

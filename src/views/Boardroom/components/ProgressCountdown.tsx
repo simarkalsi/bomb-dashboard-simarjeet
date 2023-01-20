@@ -59,13 +59,11 @@ const StyledProgressOuter = styled.div`
 
 const StyledProgress = styled.div<{progress: number}>`
   width: ${(props) => props.progress}%;
-  height: 100%;
   border-radius: 3px;
   background: ${(props) => props.theme.color.grey[100]};
 `;
 
 const StyledCardContentInner = styled.div`
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

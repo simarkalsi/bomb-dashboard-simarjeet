@@ -1,10 +1,53 @@
-import React from 'react'
+import React, { useMemo } from 'react';
+import CountUp from 'react-countup';
+
+
+import useTotalValueLocked from '../../../../hooks/useTotalValueLocked';
+import { getDisplayBalance } from '../../../../utils/formatBalance';
+import useTotalStakedOnBoardroom from '../../../../hooks/useTotalStakedOnBoardroom';
+import useFetchBoardroomAPR from '../../../../hooks/useFetchBoardroomAPR';
+import useStakedTokenPriceInDollars from '../../../../hooks/useStakedTokenPriceInDollars';
+import useEarningsOnBoardroom from '../../../../hooks/useEarningsOnBoardroom';
+import useStakedBalanceOnBoardroom from '../../../../hooks/useStakedBalanceOnBoardroom';
+import useBombFinance from '../../../../hooks/useBombFinance';
+
+
+
+
+
+
 import BshareImg from '../../asset/bshare.png'
 import discordImg from '../../asset/discord.png'
 import bombImg from'../../asset/bomb.png'
 
 
 export default function Box1() {
+
+    const TVL = useTotalValueLocked();
+    const totalStaked = useTotalStakedOnBoardroom();
+    const boardroomAPR = useFetchBoardroomAPR();
+    const earnings = useEarningsOnBoardroom();
+    const stakedBalance = useStakedBalanceOnBoardroom();
+    const bombFinance = useBombFinance();
+
+
+
+
+    const stakedTokenPriceInDollars = useStakedTokenPriceInDollars('BSHARE', bombFinance.BSHARE);
+  const tokenPriceInDollars = useMemo(
+    () =>
+      stakedTokenPriceInDollars
+        ? (Number(stakedTokenPriceInDollars) * Number(getDisplayBalance(stakedBalance))).toFixed(2).toString()
+        : null,
+    [stakedTokenPriceInDollars, stakedBalance],
+  );
+
+  const earnedInDollars = (Number(tokenPriceInDollars) * Number(getDisplayBalance(earnings))).toFixed(2);
+
+ 
+
+
+
     return (
         <>
             <div style={{ display: 'flex' }}>
@@ -23,18 +66,18 @@ export default function Box1() {
                                 <h3 style={{ float: 'left' }}>Boardroom</h3>
                                 <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
                                     <p>Stake BSHARE and earn BOMB every epoch</p>
-                                    <p style={{}}>TVL $1,008,430</p>
+                                    <p style={{}}>TVL: <CountUp style={{ fontSize: '25px' }} end={TVL} separator="," prefix="$" /></p>
                                 </div>
                             </div>
                         </div>
                         <hr />
-                        <p style={{ float: 'right' , marginBottom:'20px '}}>Total Staked: <img src={BshareImg} height ='18px' alt="" />7232</p>
+                        <p style={{ float: 'right' , marginBottom:'20px '}}>Total Staked: <img src={BshareImg} height ='18px' alt="" />{getDisplayBalance(totalStaked)}</p>
 
                         <div style={{display:'flex', width:'100%'}}>
                             <div style={{display:'flex',justifyContent:'space-around', width:'65%'}}>
-                                <div style={{alignItems:'start'}}><p style={{fontSize:'14px'}}>Daily Returns:</p> <p style={{fontSize:'20px', float:'left', marginTop:'5px'}}>2%</p></div>
-                                <div style={{alignItems:'start'}}><p style={{fontSize:'14px'}}>Your Stake</p><p style={{fontSize:'16px', float:'left', marginTop:'5px'}}> <img src={BshareImg} height='18px' alt="" />6,0000</p><p>≃$117162</p></div>
-                                <div style={{alignItems:'start'}}><p style={{fontSize:'14px'}}>Earned</p><p style={{fontSize:'16px', float:'left', marginTop:'5px'}}> <img src={bombImg} height='18px' alt="" />1660,4413</p><p>≃$2988.88</p></div>
+                                <div style={{alignItems:'start'}}><p style={{fontSize:'14px'}}>Daily Returns:</p> <p style={{fontSize:'20px', float:'left', marginTop:'5px'}}>{Number(String((boardroomAPR.toFixed(2))/365).slice(0,2))}%</p></div>
+                                <div style={{alignItems:'start'}}><p style={{fontSize:'14px'}}>Your Stake</p><p style={{fontSize:'16px', float:'left', marginTop:'5px'}}> <img src={BshareImg} height='18px' alt="" /> {getDisplayBalance(stakedBalance)} </p><p>≃${tokenPriceInDollars}</p></div>
+                                <div style={{alignItems:'start'}}><p style={{fontSize:'14px'}}>Earned</p><p style={{fontSize:'16px', float:'left', marginTop:'5px'}}> <img src={bombImg} height='18px' alt="" />{getDisplayBalance(earnings)}</p><p>≃${earnedInDollars}</p></div>
                             </div>
                             <div style={{width:'35%'}}>
                             <div style={{display:'flex', width:'100%'}}>

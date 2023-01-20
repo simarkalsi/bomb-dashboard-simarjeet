@@ -5,7 +5,17 @@ import bombImg from'../../asset/bomb.png'
 import btcbImg from'../../asset/btcb.png'
 import bshareImg from '../../asset/bshare.png'
 import bnbImg from '../../asset/bnb.png'
+
+import useTotalValueLocked from '../../../../hooks/useTotalValueLocked';
+
+
+import CountUp from 'react-countup';
+
+
+
 export default function Box2() {
+    const TVL = useTotalValueLocked();
+    
     return (
         <>
             <div style={{ backgroundColor: 'rgba(43, 43, 43, 0.55)', borderRadius: '10px' }}>
@@ -28,7 +38,7 @@ export default function Box2() {
                         </div>
                         </div>
                         <div>
-                            <p style={{ float: 'right', alignSelf: 'right' }}>TVL: $1,008,430</p>
+                            <p style={{ float: 'right', alignSelf: 'right' }}>TVL: <CountUp style={{ fontSize: '25px' }} end={TVL} separator="," prefix="$" /></p>
                         </div>
                     </div>
                     <hr />
