@@ -15,7 +15,6 @@ import CountUp from 'react-countup';
 
 export default function Box2() {
     const TVL = useTotalValueLocked();
-    
     return (
         <>
             <div style={{ backgroundColor: 'rgba(43, 43, 43, 0.55)', borderRadius: '10px' }}>
@@ -38,7 +37,7 @@ export default function Box2() {
                         </div>
                         </div>
                         <div>
-                            <p style={{ float: 'right', alignSelf: 'right' }}>TVL: <CountUp style={{ fontSize: '25px' }} end={TVL} separator="," prefix="$" /></p>
+                            <p style={{ float: 'right', alignSelf: 'right' }}>TVL: <CountUp style={{ fontSize: '18px' }} end={TVL} separator="," prefix="$" /></p>
                         </div>
                     </div>
                     <hr />
@@ -46,8 +45,8 @@ export default function Box2() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
                         <div style={{ display: 'flex', width: '45%', justifyContent: 'space-around' }}>
                             <div style={{ alignItems: 'start' }}><p style={{ fontSize: '14px' }}>Daily Returns:</p> <p style={{ fontSize: '20px', float: 'left', marginTop: '5px' }}>2%</p></div>
-                            <div style={{ alignItems: 'start' }}><p style={{ fontSize: '14px' }}>Your Stake</p><p style={{ fontSize: '16px', float: 'left', marginTop: '5px' }}> <img src={bombImg} height='18px' alt="" />6,0000</p><p>≃$117162</p></div>
-                            <div style={{ alignItems: 'start' }}><p style={{ fontSize: '14px' }}>Earned</p><p style={{ fontSize: '16px', float: 'left', marginTop: '5px' }}> <img src={btcbImg} height='18px' alt="" />1660,4413</p><p>≃$2988.88</p></div>
+                            <div style={{ alignItems: 'start' }}><p style={{ fontSize: '14px' }}>Your Stake</p><p style={{ fontSize: '16px', float: 'left', marginTop: '5px' }}> <img src={bombImg} height='18px' alt="" />0</p><p>≃$0</p></div>
+                            <div style={{ alignItems: 'start' }}><p style={{ fontSize: '14px' }}>Earned</p><p style={{ fontSize: '16px', float: 'left', marginTop: '5px' }}> <img src={btcbImg} height='18px' alt="" />0</p><p>≃$0</p></div>
                         </div>
                         <div style={{ width: '40%', padding: '20px' }}>
                             <button style={{ margin: '10px' , backgroundColor:'rgba(0,0,0,0)', border:'1px solid #fff',borderRadius:'10px', padding:'5px 10px'}}>Deposit</button>
@@ -69,7 +68,7 @@ export default function Box2() {
                         </div>
                         
                         <div>
-                            <p style={{ float: 'right', alignSelf: 'right' }}>TVL: $1,008,430</p>
+                            <p style={{ float: 'right', alignSelf: 'right' }}>TVL: <CountUp style={{ fontSize: '18px' }} end={TVL} separator="," prefix="$" /></p>
                         </div>
                     </div>
                     <hr />
@@ -77,8 +76,8 @@ export default function Box2() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginTop:'20px' }}>
                     <div style={{ display: 'flex', width: '45%', justifyContent: 'space-around' }}>
                             <div style={{ alignItems: 'start' }}><p style={{ fontSize: '14px' }}>Daily Returns:</p> <p style={{ fontSize: '20px', float: 'left', marginTop: '5px' }}>2%</p></div>
-                            <div style={{ alignItems: 'start' }}><p style={{ fontSize: '14px' }}>Your Stake</p><p style={{ fontSize: '16px', float: 'left', marginTop: '5px' }}> <img src={bshareImg} height='18px' alt="" />6,0000</p><p>≃$117162</p></div>
-                            <div style={{ alignItems: 'start' }}><p style={{ fontSize: '14px' }}>Earned</p><p style={{ fontSize: '16px', float: 'left', marginTop: '5px' }}> <img src={bnbImg} height='16px' alt="" />1660,4413</p><p>≃$2988.88</p></div>
+                            <div style={{ alignItems: 'start' }}><p style={{ fontSize: '14px' }}>Your Stake</p><p style={{ fontSize: '16px', float: 'left', marginTop: '5px' }}> <img src={bshareImg} height='18px' alt="" />0</p><p>≃$0</p></div>
+                            <div style={{ alignItems: 'start' }}><p style={{ fontSize: '14px' }}>Earned</p><p style={{ fontSize: '16px', float: 'left', marginTop: '5px' }}> <img src={bnbImg} height='16px' alt="" />0</p><p>≃$0</p></div>
                         </div>
                         <div style={{ width: '40%', padding: '20px' }}>
                         <button style={{ margin: '10px' , backgroundColor:'rgba(0,0,0,0)', border:'1px solid #fff',borderRadius:'10px', padding:'5px 10px'}}>Deposit</button>

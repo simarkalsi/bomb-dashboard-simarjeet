@@ -22,6 +22,8 @@ import MetaImg from '../../asset/metamask.svg'
 
 import { roundAndFormatNumber } from '../../../../0x';
 import ProgressCountdown from '../../../Boardroom/components/ProgressCountdown';
+import useBombFinance from '../../../../hooks/useBombFinance';
+
 
 
 
@@ -32,13 +34,15 @@ export default function Summary() {
     const tBondStats = useBondStats();
     const currentEpoch = useCurrentEpoch();
     const TVL = useTotalValueLocked();
+    const bombFinance = useBombFinance();
+
 
 
 
     const { to } = useTreasuryAllocationTimes();
     const cashStat = useCashPriceInEstimatedTWAP();
 
-    
+
 
 
 
@@ -58,23 +62,23 @@ export default function Summary() {
     const bSharePriceInDollars = useMemo(
         () => (bShareStats ? Number(bShareStats.priceInDollars).toFixed(2) : null),
         [bShareStats],
-      );
-      const bSharePriceInBNB = useMemo(
+    );
+    const bSharePriceInBNB = useMemo(
         () => (bShareStats ? Number(bShareStats.tokenInFtm).toFixed(4) : null),
         [bShareStats],
-      );
-      const tBondCirculatingSupply = useMemo(
+    );
+    const tBondCirculatingSupply = useMemo(
         () => (tBondStats ? String(tBondStats.circulatingSupply) : null),
         [tBondStats],
-      );
-      const tBondTotalSupply = useMemo(() => (tBondStats ? String(tBondStats.totalSupply) : null), [tBondStats]);
-      const tBondPriceInDollars = useMemo(
+    );
+    const tBondTotalSupply = useMemo(() => (tBondStats ? String(tBondStats.totalSupply) : null), [tBondStats]);
+    const tBondPriceInDollars = useMemo(
         () => (tBondStats ? Number(tBondStats.priceInDollars).toFixed(2) : null),
         [tBondStats],
-      );
-      const tBondPriceInBNB = useMemo(() => (tBondStats ? Number(tBondStats.tokenInFtm).toFixed(4) : null), [tBondStats]);
+    );
+    const tBondPriceInBNB = useMemo(() => (tBondStats ? Number(tBondStats.tokenInFtm).toFixed(4) : null), [tBondStats]);
 
-      const scalingFactor = useMemo(() => (cashStat ? Number(cashStat.priceInDollars).toFixed(4) : null), [cashStat]);
+    const scalingFactor = useMemo(() => (cashStat ? Number(cashStat.priceInDollars).toFixed(4) : null), [cashStat]);
 
 
     return (
@@ -101,7 +105,9 @@ export default function Summary() {
                                     <td style={{ textAlign: 'center' }}>{roundAndFormatNumber(bombCirculatingSupply, 2)}</td>
                                     <td style={{ textAlign: 'center' }}> {roundAndFormatNumber(bombTotalSupply, 2)}</td>
                                     <td><p style={{ margin: "0px" }}>${bombPriceInDollars ? roundAndFormatNumber(bombPriceInDollars, 2) : '-.--'}</p><p style={{ margin: "0px" }}>{bombPriceInBNB ? bombPriceInBNB : '-.----'} BTC</p></td>
-                                    <td style={{ padding: '0px 10px' }}> <img src={MetaImg} height='25px' alt="" /> </td>
+                                    <td style={{ padding: '0px 10px' }}> <img src={MetaImg} style={{ cursor: 'pointer' }} onClick={() => {
+                                        bombFinance.watchAssetInMetamask('BOMB');
+                                    }} height='25px' alt="" /> </td>
                                 </tr>
 
                                 <tr style={{ textAlign: 'center' }}>
@@ -109,14 +115,18 @@ export default function Summary() {
                                     <td style={{ textAlign: 'center' }}>{roundAndFormatNumber(bShareCirculatingSupply, 2)}</td>
                                     <td style={{ textAlign: 'center' }}>{roundAndFormatNumber(bShareTotalSupply, 2)}</td>
                                     <td><p style={{ margin: "0px" }}>${bSharePriceInDollars ? bSharePriceInDollars : '-.--'}</p><p style={{ margin: "0px" }}>{bSharePriceInBNB ? bSharePriceInBNB : '-.----'} BNB</p></td>
-                                    <td><img src={MetaImg} height='25px' alt="" /></td>
+                                    <td><img src={MetaImg} style={{ cursor: 'pointer' }} onClick={() => {
+                                        bombFinance.watchAssetInMetamask('BSHARE');
+                                    }} height='25px' alt="" /></td>
                                 </tr>
                                 <tr style={{ textAlign: 'center' }}>
                                     <td style={{ float: 'left', padding: '10px 0px', verticalAlign: 'middle' }}><img src={BBondImg} alt="X" height='30px' /> BBOND</td>
                                     <td style={{ textAlign: 'center' }}>{roundAndFormatNumber(tBondCirculatingSupply, 2)}</td>
                                     <td style={{ textAlign: 'center' }}>{roundAndFormatNumber(tBondTotalSupply, 2)}</td>
                                     <td><p style={{ margin: "0px" }}>${tBondPriceInDollars ? tBondPriceInDollars : '-.--'}</p><p style={{ margin: "0px" }}>{tBondPriceInBNB ? tBondPriceInBNB : '-.----'} BTC</p></td>
-                                    <td><img src={MetaImg} height='25px' alt="" /></td>
+                                    <td><img src={MetaImg} style={{ cursor: 'pointer' }} onClick={() => {
+                                        bombFinance.watchAssetInMetamask('BBOND');
+                                    }} height='25px' alt="" /></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -131,8 +141,8 @@ export default function Summary() {
                         <p>Next Epoch in</p>
                         <hr style={{ width: '70%' }} />
                         <div style={{ fontSize: '14px', display: 'flex', justifyContent: 'center' }}> <p>Live TWAP :</p> <p style={{ color: 'green', fontWeight: 'bold' }}>{scalingFactor}</p></div>
-                        <div style={{ fontSize: '14px', display: 'flex', justifyContent: 'center' }}> <p>TVL : </p> <p style={{ color: 'green', fontWeight: 'bold' }}><CountUp style={{ fontSize: '25px' }} end={TVL} separator="," prefix="$" /></p></div>
-                        <div style={{ fontSize: '14px', display: 'flex', justifyContent: 'center' }}> <p>Last Epoch TWAP : </p> <p style={{ color: 'green', fontWeight: 'bold' }}>1.17</p></div>
+                        <div style={{ fontSize: '14px', display: 'flex', justifyContent: 'center' }}> <p>TVL : </p> <p style={{ color: 'green', fontWeight: 'bold' }}><CountUp style={{ fontSize: '18px' }} end={TVL} separator="," prefix="$" /></p></div>
+                        <div style={{ fontSize: '14px', display: 'flex', justifyContent: 'center' }}> <p>Last Epoch TWAP : </p> <p style={{ color: 'green', fontWeight: 'bold' }}>0.3198</p></div>
                     </div>
                 </div>
             </div>
